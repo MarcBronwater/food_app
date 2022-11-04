@@ -32,7 +32,12 @@ st.title('Wat wordt de maaltijd voor vanavond?')
 
 st.markdown(
     """
-    Benieuwd naar een nieuw recept op basis van jou diëet en gezondheidsdoel?
+    Curious what recipe you want to cook tonight?
+    Most people get into a cycle where they cook the same dish almost every week because that's what they know and 
+    are comfortable with.
+    If you want to try something new, this app predicts a selection of recipes you could like based on your choice of
+     cuisine, time to cook, health goal and diet.
+    It does this via an Artificial Intelligence.
     """
 )
 
@@ -70,15 +75,15 @@ if st.button('Voorspel recept'):
 st.header("Info")
 st.markdown(
     """
-    Info
-    blablablabbla
+    This app predicts which recipes you would like based on your choice of cuisine, time to cook, health goal and diet.
+    The AI has learned which recipes are best suited based on the available choices. Health goals and the keto diet are 
+    determined by macro nutrition values. These nutritional values are chosen based on multiple articles which contain 
+    results from scientific studies. 
     """
 )
-
-st.header("Disclaimer")
 st.markdown(
     """
-    Disclaimer
-    blala
+    The dataset used to train the AI is somewhat limited. So there will not be a specific measurement for the 
+    ingredients listed.
     """
 )
