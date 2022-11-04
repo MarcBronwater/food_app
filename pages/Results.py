@@ -8,17 +8,19 @@ from keras.optimizers import SGD, Adam, Adagrad, RMSprop
 import numpy as np
 from streamlit.components.v1 import html
 import pickle
+from ast import literal_eval
+import base64
 
-df_recipes = pd.read_csv("updated_recipes.csv")
+df_recipes = pd.read_csv("updated_recipes.csv", converters={"steps": literal_eval, "ingredients": literal_eval})
 
-with open("test", "rb") as fp:   # Unpickling
+with open("test", "rb") as fp:  # Unpickling
     variables_list = pickle.load(fp)
-
 
 Cuisine = variables_list[0]
 Duration = variables_list[1]
 Health_goal = variables_list[2]
 Diet = variables_list[3]
+
 
 # create navigation
 def nav_page(page_name, timeout_secs=3):
@@ -45,10 +47,11 @@ def nav_page(page_name, timeout_secs=3):
         </script>
     """ % (page_name, timeout_secs)
     html(nav_script)
-                
+
+
 if st.button('Go to main'):
     nav_page("Main_page")
-    
+
 if st.button('Change preferences'):
     nav_page("questionnaire")
 
@@ -98,6 +101,36 @@ def predict(duration, cuisine, health_goal, diet, model):
     return prediction
 
 
+def add_bg_from_local(image_file):
+    with open(image_file, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read())
+    st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-image: url(data:image/{"png"};base64,{encoded_string.decode()});
+        background-size: cover
+    }}
+    </style>
+    """, unsafe_allow_html=True
+    )
+
+
+if Cuisine == "Undefined":
+    add_bg_from_local('pictures/undefined_recipe_background.jpg')
+
+if Cuisine == "American":
+    add_bg_from_local('pictures/american_recipe_background.jpg')
+
+if Cuisine == "European":
+    add_bg_from_local('pictures/european_recipe_background.jpg')
+
+if Cuisine == "Asian":
+    add_bg_from_local('pictures/asian_recipe_background.jpg')
+
+if Cuisine == "African":
+    add_bg_from_local('pictures/african_recipe_background.jpg')
+
 Recipe = predict(Duration, Cuisine, Health_goal, Diet, Model)
 st.success('The predicted recipes are: ')
 # st.success(range(224))
@@ -108,7 +141,19 @@ for i in range(len(df_recipes)):
         indices = np.where(df_recipes["Category"] == i)
         for j in indices:
             for k in j:
-                st.success(df_recipes.loc[k, 'name'])
+                with st.expander(df_recipes.loc[k, 'name']):
+                    col1, col2, col3, col4 = st.columns(4)
+                    col1.metric(label="Calories (#)", value=df_recipes.loc[k, 'Calories (#)'])
+                    col2.metric(label="Total Fat (PDV)", value=df_recipes.loc[k, 'Total Fat (PDV)'])
+                    col3.metric(label="Carbohydrates (PDV)", value=df_recipes.loc[k, 'Carbohydrates (PDV)'])
+                    col4.metric(label="Protein (PDV)", value=df_recipes.loc[k, 'Protein (PDV)'])
+
+                    df_ingredients = pd.DataFrame(df_recipes.loc[k, 'ingredients'])
+                    df_ingredients.columns = ["Ingredients"]
+                    df_steps = pd.DataFrame(df_recipes.loc[k, 'steps'])
+                    df_steps.columns = ["Steps"]
+                    st.write("Ingredients: ", df_ingredients)
+                    st.write('Steps: ', df_steps)
 
 
 
