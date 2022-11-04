@@ -99,7 +99,7 @@ def predict(duration, cuisine, health_goal, diet, model):
 
 
 Recipe = predict(Duration, Cuisine, Health_goal, Diet, Model)
-st.success('The predicted recipe is ' + str(Recipe[1]))
+st.success('The predicted recipes are: ')
 # st.success(range(224))
 
 for i in range(len(df_recipes)):
