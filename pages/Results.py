@@ -7,6 +7,7 @@ from keras.layers import Dense
 from keras.optimizers import SGD, Adam, Adagrad, RMSprop
 import numpy as np
 from streamlit.components.v1 import html
+import pickle
 
 df_recipes = pd.read_csv("updated_recipes.csv")
 
