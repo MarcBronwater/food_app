@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
-from tensorflow import keras
 import tensorflow as tf
+from tf import keras
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.optimizers import SGD, Adam, Adagrad, RMSprop
