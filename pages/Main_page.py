@@ -1,13 +1,12 @@
 import streamlit as st
 import pandas as pd
+import tensorflow as tf
+from tensorflow import keras
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.optimizers import SGD, Adam, Adagrad, RMSprop
-import tensorflow as tf
-from tensorflow import keras
 import numpy as np
 from streamlit.components.v1 import html
-import joblib
 
 st.title('Wat wordt de maaltijd voor vanavond?')
 
